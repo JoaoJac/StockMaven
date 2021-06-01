@@ -14,6 +14,9 @@ public abstract class EntityService<R extends EntityRepository<E>, E extends Ent
 	@Inject
 	protected R repository;
 		
+	public abstract void removeEntityById(long id);
+	public abstract void removeAllEntities();
+	
 	public E createEntity(E entity) {
 		return repository.createEntity(entity);
 	}
@@ -26,18 +29,11 @@ public abstract class EntityService<R extends EntityRepository<E>, E extends Ent
 		return repository.editEntity(entity);
 	}
 
-	public abstract void removeEntityById(long id);
-
 	public List<E> getAllEntities() {
 		return repository.getAllEntities();
 	}
 
 	public List<Long> getAllEntitiesIds() {
 		return repository.getAllEntitiesIds();
-	}
-
-	public void removeAllEntities() {
-		repository.removeAllEntities();
-		
 	}
 }

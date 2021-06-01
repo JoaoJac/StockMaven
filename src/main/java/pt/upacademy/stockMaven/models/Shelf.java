@@ -1,5 +1,6 @@
 package pt.upacademy.stockMaven.models;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -12,6 +13,7 @@ import javax.persistence.NamedQuery;
 	@NamedQuery(name = Shelf.GET_EMPTY_SHELVES_IDS, query = "SELECT s.id FROM Shelf s WHERE s.pr = null"),
 	@NamedQuery(name = Shelf.GET_SHELVESID_BY_PROD_ID, query = "SELECT s.id FROM Shelf s WHERE s.pr.id = :pr_id"),
 	@NamedQuery(name = Shelf.REMOVE_PRODUCT_FROM_ALL_SHELFS_BY_PROD_ID, query = "UPDATE Shelf s SET s.pr = null, s.capacity = 0 WHERE s.pr.id = :pr_id"),
+	@NamedQuery(name = Shelf.REMOVE_ALL_PRODUCTS_FROM_SHELVES, query = "UPDATE Shelf s SET s.pr = null, s.capacity = 0"),
 	@NamedQuery(name = Shelf.REMOVE_ALL, query = "DELETE FROM Shelf")
 })
 public class Shelf extends Entity_{
@@ -22,10 +24,11 @@ public class Shelf extends Entity_{
 	public static final String GET_EMPTY_SHELVES_IDS = "getEmptyShelvesIds";
 	public static final String GET_SHELVESID_BY_PROD_ID = "getShelvesIdByProdId";
 	public static final String REMOVE_PRODUCT_FROM_ALL_SHELFS_BY_PROD_ID = "removeProductFromAllShelvesByProdId";
+	public static final String REMOVE_ALL_PRODUCTS_FROM_SHELVES = "removeAllProductsFromShelves";
 	public static final String REMOVE_ALL = "removeAllShelves";
 	
 	private int capacity;
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	private Product pr;
 	private double dailyPrice;
 	

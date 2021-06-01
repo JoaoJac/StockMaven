@@ -43,6 +43,12 @@ public class ShelfController extends EntityController<ShelfService, ShelfReposit
 	@Override
 	public String validateEntity(Shelf s) {
 		ArrayList<String> invalids = new ArrayList<>();
+		if(s.getCapacity() != 0 && s.getCapacity() != 1) {
+			invalids.add("Capacidade inválida!");
+		}
+		if(s.getDailyPrice() <= 0) {
+			invalids.add("Preço diário de aluguer não pode ser negativo!");
+		}
 		if(s.getCapacity() == 0 && s.getPr() != null) {
 			invalids.add("Uma prateleira vazia(capacidade = 0) não pode ter um produto associado!");
 		}

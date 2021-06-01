@@ -61,10 +61,18 @@ public abstract class EntityController <S extends EntityService<R,E>, R extends 
 	@PUT
 	@Path("/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String editEntity(@PathParam("id") long id, E newEntity) {
-		newEntity.setId(service.getEntityById(id).getId());
-		service.editEntity(newEntity);
-		return "Entidade actualizada!";
+	public Response editEntity(@PathParam("id") long id, E newEntity) {
+		if(service.getEntityById(id) == null) { 
+			return Response.status(404).entity("Entidade não encontrada!").build();
+		}
+		String error = validateEntity(newEntity);
+		if(error.equals("")) {
+			newEntity.setId(service.getEntityById(id).getId());
+			service.editEntity(newEntity);
+			return Response.ok("Entidade actualizada!").build();
+		}else {
+			return Response.status(422).entity(error).build();
+		}
 	}
 
 	@DELETE
@@ -72,7 +80,7 @@ public abstract class EntityController <S extends EntityService<R,E>, R extends 
 	public Response removeEntityById(@PathParam("id") long id) {
 		if(service.getEntityById(id) != null) {
 			service.removeEntityById(id);
-			return Response.ok().entity("Entidade apagada!").build();
+			return Response.ok("Entidade apagada!").build();
 		}else {
 			return Response.status(404).entity("Entidade não encontrada!").build();
 		}

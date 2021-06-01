@@ -25,6 +25,10 @@ public class ShelfRepository extends EntityRepository<Shelf>{
 	public void removeProductFromAllShelvesByProdId(long pr_id){
 		em.createNamedQuery(Shelf.REMOVE_PRODUCT_FROM_ALL_SHELFS_BY_PROD_ID).setParameter("pr_id", pr_id).executeUpdate();
 	}
+	
+	public void removeAllProductsFromShelves() {
+		em.createNamedQuery(Shelf.REMOVE_ALL_PRODUCTS_FROM_SHELVES).executeUpdate();
+	}
 
 	@Override
 	protected String getAll() {

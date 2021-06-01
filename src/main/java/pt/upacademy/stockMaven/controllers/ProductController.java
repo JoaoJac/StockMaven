@@ -41,7 +41,10 @@ public class ProductController extends EntityController<ProductService, ProductR
 			invalids.add("Iva inválido!");
 		}
 		if(p.getDiscount()<0 || p.getDiscount()>=100) {
-			invalids.add("Disconto inválido!");
+			invalids.add("Desconto inválido!");
+		}
+		if(p.getPrice()<=0) {
+			invalids.add("Preço inválido");
 		}
 		return String.join(" ", invalids);
 	}	

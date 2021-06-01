@@ -35,8 +35,17 @@ public class ShelfService extends EntityService<ShelfRepository, Shelf> {
 		repository.removeProductFromAllShelvesByProdId(pr_id);
 	}
 	
+	public void removeAllProductsFromShelves() {
+		repository.removeAllProductsFromShelves();
+	}
+	
 	@Override
 	public void removeEntityById(long id) {
 		repository.removeEntityById(id);	
+	}
+
+	@Override
+	public void removeAllEntities() {
+		repository.removeAllEntities();		
 	}
 }

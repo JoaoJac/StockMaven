@@ -14,18 +14,24 @@ public class ProductService extends EntityService<ProductRepository,Product>{
 	@Inject
 	ShelfService SS;
 	
-	@Override
-	public void removeEntityById(long id) {
-		SS.removeProductFromAllShelvesByProdId(id);
-		repository.removeEntityById(id);
-	}
-
 	public List<Product> getProductsWithDiscount() {
 		return repository.getProductsWithDiscount();
 	}
 	
 	public List<Product> getProductsWithPricesBetween(double min, double max){
 		return repository.getProductsWithPricesBetween(min, max);
+	}
+
+	@Override
+	public void removeEntityById(long id) {
+		SS.removeProductFromAllShelvesByProdId(id);
+		repository.removeEntityById(id);
+	}
+	
+	@Override
+	public void removeAllEntities() {
+		SS.removeAllProductsFromShelves();
+		repository.removeAllEntities();
 	}
 }
 
