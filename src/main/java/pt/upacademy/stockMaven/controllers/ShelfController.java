@@ -4,13 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
+import pt.upacademy.stockMaven.models.Product;
 import pt.upacademy.stockMaven.models.Shelf;
 import pt.upacademy.stockMaven.repositories.ShelfRepository;
 import pt.upacademy.stockMaven.services.ShelfService;
@@ -18,7 +21,10 @@ import pt.upacademy.stockMaven.services.ShelfService;
 @RequestScoped
 @Path("shelves")
 public class ShelfController extends EntityController<ShelfService, ShelfRepository, Shelf> {
-
+	
+	@Inject
+	ProductController PC;
+	
 	@GET
 	@Path("emptyShelves")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -36,8 +42,17 @@ public class ShelfController extends EntityController<ShelfService, ShelfReposit
 	@PUT
 	@Path("addProduct/{pr_id}/toShelf/{sh_id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Shelf addProductToShelf(@PathParam("pr_id") long pr_id, @PathParam("sh_id") long sh_id) {
-		return service.addProductToShelf(pr_id, sh_id);
+	public Response addProductToShelf(@PathParam("pr_id") long pr_id, @PathParam("sh_id") long sh_id) {
+		Product p = PC.getEntityById(pr_id);
+		Shelf s = service.getEntityById(sh_id);
+		if(p != null && s != null) {
+			return Response.ok(service.addProductToShelf(pr_id, sh_id)).build();
+		}else {
+			ArrayList<String> error = new ArrayList<>();
+			if(p == null) error.add("Produto não encontrado!");
+			if(s == null) error.add("Shelf não encontrada!");
+			return Response.status(404).entity(String.join(" ", error)).build();
+		}	
 	}
 
 	@Override
