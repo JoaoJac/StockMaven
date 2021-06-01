@@ -64,11 +64,14 @@ public class ShelfController extends EntityController<ShelfService, ShelfReposit
 		if(s.getDailyPrice() <= 0) {
 			invalids.add("Preço diário de aluguer não pode ser negativo!");
 		}
+		if(s.getCapacity() == 1 && s.getPr() == null) {
+			invalids.add("Uma prateleira ocupada(capacidade = 1) têm de ter um produto associado!");
+		}
 		if(s.getCapacity() == 0 && s.getPr() != null) {
 			invalids.add("Uma prateleira vazia(capacidade = 0) não pode ter um produto associado!");
 		}
-		if(s.getCapacity() == 1 && s.getPr() == null) {
-			invalids.add("Uma prateleira ocupada(capacidade = 1) têm de ter um produto associado!");
+		if(s.getPr() != null && PC.getEntityById(s.getPr().getId()) == null) {
+			invalids.add("Produto não encontrado");
 		}
 		return String.join(" ", invalids);
 	}

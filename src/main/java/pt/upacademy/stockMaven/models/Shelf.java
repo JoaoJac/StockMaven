@@ -28,7 +28,7 @@ public class Shelf extends Entity_{
 	public static final String REMOVE_ALL = "removeAllShelves";
 	
 	private int capacity;
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	private Product pr;
 	private double dailyPrice;
 	
