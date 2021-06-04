@@ -51,7 +51,7 @@ public class ShelfController extends EntityController<ShelfService, ShelfReposit
 			ArrayList<String> error = new ArrayList<>();
 			if(p == null) error.add("Produto não encontrado!");
 			if(s == null) error.add("Shelf não encontrada!");
-			return Response.status(404).entity(String.join(" ", error)).build();
+			return Response.status(406).entity(String.join(" ", error)).build();
 		}	
 	}
 

@@ -63,7 +63,7 @@ public abstract class EntityController <S extends EntityService<R,E>, R extends 
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response editEntity(@PathParam("id") long id, E newEntity) {
 		if(service.getEntityById(id) == null) { 
-			return Response.status(404).entity("Entidade não encontrada!").build();
+			return Response.status(406).entity("Entidade não encontrada!").build();
 		}
 		String error = validateEntity(newEntity);
 		if(error.equals("")) {
@@ -82,7 +82,7 @@ public abstract class EntityController <S extends EntityService<R,E>, R extends 
 			service.removeEntityById(id);
 			return Response.ok("Entidade apagada!").build();
 		}else {
-			return Response.status(404).entity("Entidade não encontrada!").build();
+			return Response.status(406).entity("Entidade não encontrada!").build();
 		}
 	}
 	
